@@ -1,0 +1,18 @@
+Package: shapeMageR
+Title: Generation of Complex Geometry for Plotting
+Version: 0.0.1
+Authors@R: 
+    person("Chun-Hui", "Gao", , "gaospecial@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1445-7939"))
+Description: `shapeMageR` is implemented to deal with the shape generation for 
+  plotting complex geometries in `ggVennDiagram`. It's named after "shape + 
+  mage + R". All the related shape generation functions used in `ggVennDiagram`
+  are transferred to the new `shapeMageR` package. 
+License: GPL3 + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
+Imports: 
+    magrittr,
+    methods,
+    sf
