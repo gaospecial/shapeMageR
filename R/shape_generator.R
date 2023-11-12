@@ -25,7 +25,7 @@ NULL
 #' library(sf)
 #' library(ggVennDiagram)
 #' ellipse() %>% st_linestring() %>% plot()
-ellipse <- function(x = 0, y =0, a = 2, b = 1, rotation = 0, n = 100){
+ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
   rotation <- rotation * pi/180
   theta <- 2 * pi/n
   angles <- seq(0, 2 * pi, theta)
@@ -41,7 +41,7 @@ ellipse <- function(x = 0, y =0, a = 2, b = 1, rotation = 0, n = 100){
   x.coord[n+1] <- x.coord[1]
   y.coord[n+1] <- y.coord[1]
 
-  as.matrix(data.frame(x = x.coord, y = y.coord))
+  data.frame(x = x.coord, y = y.coord)
 }
 
 
@@ -108,7 +108,7 @@ fancy_4d_ellipse <- function(parameters = NULL, n = 100){
                      c(0.50, 0.57, 0.33, 0.15,  45),
                      c(0.65, 0.47, 0.35, 0.20,  45))
   ellipses <- lapply(parameters,function(x){
-    ellipse(x[[1]],x[[2]],x[[3]],x[[4]],x[[5]],n = n)
+    do.call(ellipse, as.list(c(x,n)))
   })
 
   ellipses
@@ -117,17 +117,16 @@ fancy_4d_ellipse <- function(parameters = NULL, n = 100){
 
 #' @export
 #' @rdname label_position
-fancy_4d_ellipse_label <- function(position = NULL){
-  if (is.null(position))
-    position <-  tibble::tribble(
-      ~x,       ~y,
-      0.08,      0.78,
-      0.26,      0.86,
-      0.71,      0.85,
-      0.93,      0.78
+fancy_4d_ellipse_label <- function(position = NULL) {
+  if (is.null(position)) {
+    position = list(
+      data.frame(x = 0.08, y = 0.78),
+      data.frame(x = 0.26, y = 0.86),
+      data.frame(x = 0.71, y = 0.85),
+      data.frame(x = 0.93, y = 0.78)
     )
-  label_position(position)
-
+  }
+  return(position)
 }
 
 ############## Three dimension circle #########
@@ -232,7 +231,7 @@ fancy_6d_triangle_label <- function(position = NULL){
 #' @name label_position
 #'
 #' @details
-#' - `label_position`: basal wrapper for label postion
+#' - `label_position`: basal wrapper for label positions
 #' - `fancy_6d_triangle_label`: 6 sets triangle label position work with `fancy_6d_triangle`
 #' - `fancy_4d_ellipse_label`: 4 sets ellipse label position work with `fancy_4d_ellipse`
 #' - `fancy_3d_circle_label`: 3 sets circle label position work with `fancy_3d_circle`

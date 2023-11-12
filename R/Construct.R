@@ -142,8 +142,8 @@ setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
               stop("SetEdge/setLabel must be a list.")
             if (length(setEdge) != length(setLabel))
               stop("SetEdge/setlabel must be the same length.")
-            if (!all(sapply(setEdge, is.matrix), sapply(setLabel, is.matrix)))
-              stop("The element in setEdge/setLabel list must be a matrix.")
+            if (!all(sapply(setEdge, is.data.frame), sapply(setLabel, is.data.frame)))
+              stop("The element in setEdge/setLabel must be a data.frame with two columns (x, y)")
 
             edge <- .setEdge(setEdge)
             label <- .setLabel(setLabel)
@@ -153,6 +153,7 @@ setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
           })
 
 .setEdge <- function(setEdge){
+  setEdge = lapply(setEdge, as.matrix)
   linestrings <- lapply(setEdge, sf::st_linestring)
   d <- tibble::tibble(
     id = as.character(seq_len(length(setEdge))),
@@ -162,6 +163,7 @@ setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
 }
 
 .setLabel <- function(setLabel){
+  setLabel = lapply(setLabel, as.matrix)
   points <- lapply(setLabel, sf::st_point)
   d <- tibble::tibble(
     id = as.character(seq_len(length(setLabel))),
@@ -171,6 +173,7 @@ setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
 }
 
 .region <- function(setEdge){
+  setEdge = lapply(setEdge, as.matrix)
   polygons <- lapply(setEdge, function(x) sf::st_polygon(list(x)))
   polygon <- Polygon(polygons)
   regions <- get_region_items(polygon)
@@ -182,7 +185,24 @@ setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
   sf::st_as_sf(d)
 }
 
+get_region_items <- function(polygon){
+  n = length(polygon@sets)
+  c = combinations(n)
+  lapply(c, function(i) discern_overlap(polygon,i))
+}
 
 
+get_region_ids <- function(polygon){
+  n = length(polygon@sets)
+  c = combinations(n)
+  sapply(c, function(i) paste0(i, collapse = ""))
+}
 
+
+get_region_names <- function(polygon){
+  n = length(polygon@sets)
+  set_name = polygon@names
+  c = combinations(n)
+  sapply(c, function(i) paste0(set_name[i], collapse = ".."))
+}
 

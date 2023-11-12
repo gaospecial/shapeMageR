@@ -115,26 +115,8 @@ setGeneric("discern_overlap", function(venn, slice = "all") standardGeneric("dis
 
 #' calculate the unique region defined by `Venn` object and the parameter `slice`
 #'
-#' @note move to ggVennDiagram
-#'
-#' @param venn Venn object
-#' @param slice a numeric vector indicating the index of slice, default is "all"
 #' @export
-#' @rdname discern_overlap
-setMethod("discern_overlap", c(venn="Venn", slice="ANY"),
-          function(venn, slice = "all"){
-            overlap = RVenn::overlap(venn, slice = slice)
-            if (slice[1] == "all" | identical(venn@sets[slice], venn@sets)){
-              discern = NULL
-              return(overlap)
-            } else {
-              discern = RVenn::discern(venn, slice1 = slice)
-              return(intersect(overlap, discern))
-            }
-          })
-
-#' @export
-#' @rdname discern_overlap
+#' @name discern_overlap
 setMethod("discern_overlap", c(venn="Polygon", slice="ANY"),
           function(venn, slice = "all"){
             overlap = overlap(venn, slice = slice)
@@ -142,7 +124,7 @@ setMethod("discern_overlap", c(venn="Polygon", slice="ANY"),
               discern = NULL
               return(overlap)
             } else {
-              discern = discern(venn, slice1 = slice)
+              discern = discern(venn, slice1 = slice, slice2 = "all")
               return(sf::st_intersection(overlap, discern))
             }
           })

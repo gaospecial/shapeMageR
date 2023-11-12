@@ -29,7 +29,7 @@ helper function to set label position
 }
 \details{
 \itemize{
-\item \code{label_position}: basal wrapper for label postion
+\item \code{label_position}: basal wrapper for label positions
 \item \code{fancy_6d_triangle_label}: 6 sets triangle label position work with \code{fancy_6d_triangle}
 \item \code{fancy_4d_ellipse_label}: 4 sets ellipse label position work with \code{fancy_4d_ellipse}
 \item \code{fancy_3d_circle_label}: 3 sets circle label position work with \code{fancy_3d_circle}
