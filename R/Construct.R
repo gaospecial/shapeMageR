@@ -82,8 +82,8 @@ setMethod("Polygon", c(sets = "ANY"),
               sets = sets[!(sapply(sets, is.null))]
             }
 
-            if (length(sets) <= 1){
-              stop("The list should contain at least 2 vectors.")
+            if (length(sets) < 1){
+              stop("The list should contain at least 1 vector.")
             }
 
             if (length(unique(lapply(sets, class))) != 1) {
