@@ -1,96 +1,7 @@
-#' functions to generate ellipse, circle, triangle and other shapes,
-#'  which will be used in Venn plot
-#' @name shape_generator
-NULL
+########## Complex Shapes ###########
 
 
-
-#' generating a closed ellipse
-#'
-#' This function is derived from `VennDiagram::ell2poly`, we modified it and then
-#' it can generating a closed ellipse, which is a requirement for further transformation
-#' to a POLYGON sf object.
-#'
-#' @param x,y the coordinates of ellipse center
-#' @param a radius of short arm
-#' @param b radius of long arm
-#' @param rotation rotation in degree
-#' @param n number of points
-#'
-#' @return a matrix representing ellipse coordinates
-#' @export
-#'
-#' @examples
-#' # plot the default ellipse
-#' library(sf)
-#' library(ggVennDiagram)
-#' ellipse() %>% st_linestring() %>% plot()
-ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
-  rotation <- rotation * pi/180
-  theta <- 2 * pi/n
-  angles <- seq(0, 2 * pi, theta)
-  x.coord <- vector(length = n+1, mode = "numeric")
-  y.coord <- vector(length = n+1, mode = "numeric")
-  for (i in 1:n) {
-    x.coord[i] <- x + a * cos(angles[i]) * cos(rotation) -
-      b * sin(angles[i]) * sin(rotation)
-    y.coord[i] <- y + a * cos(angles[i]) * sin(rotation) +
-      b * sin(angles[i]) * cos(rotation)
-  }
-  # close ellipse
-  x.coord[n+1] <- x.coord[1]
-  y.coord[n+1] <- y.coord[1]
-
-  data.frame(x = x.coord, y = y.coord)
-}
-
-
-#' generating a circle
-#'
-#' @param x,y center of circle
-#' @param r radius of circle
-#' @param n number of points for polygon object (resolution)
-#'
-#' @return a matrix representing circle coordinates
-#' @export
-#'
-#' @examples
-#' # plot the default circle
-#' library(ggVennDiagram)
-#' library(sf)
-#' circle() %>% st_linestring() %>% plot()
-circle <- function(x = 0, y = 0, r = 1, n=100){
-  angles <- seq(0,2*pi,length.out = n)
-  x.coord <- x + cos(angles) * r
-  y.coord <- y + sin(angles) * r
-  x.coord[n] <- x.coord[1]
-  y.coord[n] <- y.coord[1]
-  as.matrix(data.frame(x=x.coord,y=y.coord))
-}
-
-#' defined a triangle by three points
-#'
-#' @param xy coordinates of the three points defining a triangle
-#'
-#' @export
-#' @return a matrix with xy coordinates
-#'
-#' @examples
-#' # triangle coordinates
-#' library(ggVennDiagram)
-#' library(sf)
-#' triangle()
-#'
-#' # plot a new triangle
-#' triangle(c(-1,0,1,0,0,2)) %>% st_linestring() %>% plot()
-triangle <- function(xy = c(0,0,1,0,0,1)){
-  xy <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE)
-  colnames(xy) <- c("x","y")
-  return(xy)
-}
-
-
-########## Four dimension ###########
+##### Four dimension ellipses ######
 
 #' fancy 4d ellipse from `VennDiagram`
 #'
@@ -119,14 +30,15 @@ fancy_4d_ellipse <- function(parameters = NULL, n = 100){
 #' @rdname label_position
 fancy_4d_ellipse_label <- function(position = NULL) {
   if (is.null(position)) {
-    position = list(
-      data.frame(x = 0.08, y = 0.78),
-      data.frame(x = 0.26, y = 0.86),
-      data.frame(x = 0.71, y = 0.85),
-      data.frame(x = 0.93, y = 0.78)
+    position = tibble::tribble(
+      ~x,    ~y,
+      0.08, 0.78,
+      0.26, 0.86,
+      0.71, 0.85,
+      0.93, 0.78
     )
   }
-  return(position)
+  label_position(position)
 }
 
 ############## Three dimension circle #########
@@ -140,7 +52,7 @@ fancy_3d_circle <- function(parameters = NULL, n = 100){
     parameters <- list(c(0,0,4),c(4,0,4), c(2,-4,4))
 
   circles <- lapply(parameters, function(x){
-    do.call(circle,as.list(c(x,n)))
+    do.call(circle, as.list(c(x,n)))
   })
 
   circles
@@ -224,7 +136,7 @@ fancy_6d_triangle_label <- function(position = NULL){
 
 #' helper function to set label position
 #'
-#' @param position a data.frame containing label coordinates
+#' @param position a two column (x, y) data.frame containing label coordinates
 #' @export
 #'
 #' @return a list of matrix
@@ -243,8 +155,7 @@ fancy_6d_triangle_label <- function(position = NULL){
 #' fancy_2d_circle_label()
 label_position <- function(position){
   points <- lapply(seq_len(nrow(position)),function(i){
-    as.matrix(position[i,])
+    position[i,]
   })
-
   points
 }
