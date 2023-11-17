@@ -11,6 +11,8 @@
 # - id: id of set/region
 # - xy: coordination of regions
 
+library(shapeMageR)
+
 # 4d ellipse
 f4e = VennPlotData(
   shapeId = "401f",
@@ -92,5 +94,3 @@ venn_shapes = lapply(seq_len(nrow(sets)), function(i){
 ggVennDiagramShapes =
   c(list(f4e), list(f3c), list(f2c), list(f6t), venn_shapes)
 
-# shapes = NULL
-usethis::use_data(ggVennDiagramShapes, overwrite = TRUE)
