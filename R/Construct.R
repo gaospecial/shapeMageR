@@ -117,7 +117,12 @@ setMethod("Polygon", c(sets = "ANY"),
 #' @slot region the feature region will be calculated automatically with `setEdge`
 #'
 setClass("VennPlotData",
-         slots = list(setEdge = "ANY", setLabel = "ANY", region = "ANY"))
+         slots = list(shapeId = "ANY",
+                      type = "ANY",
+                      nsets = "ANY",
+                      setEdge = "ANY",
+                      setLabel = "ANY",
+                      region = "ANY"))
 
 #' VennPlotData constructor
 #'
@@ -127,7 +132,7 @@ setClass("VennPlotData",
 #'
 #' @name VennPlotData
 #' @docType methods
-setGeneric("VennPlotData", function(setEdge, setLabel){
+setGeneric("VennPlotData", function(shapeId, type, setEdge, setLabel){
   standardGeneric("VennPlotData")
 })
 
@@ -136,8 +141,13 @@ setGeneric("VennPlotData", function(setEdge, setLabel){
 #' @rdname VennPlotData
 #' @export
 #' @importFrom methods new
-setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
-          function(setEdge, setLabel){
+setMethod("VennPlotData", c(shapeId = "ANY",
+                            type = "ANY",
+                            setEdge = "ANY",
+                            setLabel = "ANY"),
+          function(shapeId, type, setEdge, setLabel){
+            valid_type = c("ellipse","triangle","polygon","circle")
+            type = match.arg(type, choices = valid_type)
             if (!is.list(setEdge) | !is.list(setLabel))
               stop("SetEdge/setLabel must be a list.")
             if (length(setEdge) != length(setLabel))
@@ -145,10 +155,17 @@ setMethod("VennPlotData", c(setEdge = "ANY", setLabel = "ANY"),
             if (!all(sapply(setEdge, is.data.frame), sapply(setLabel, is.data.frame)))
               stop("The element in setEdge/setLabel must be a data.frame with two columns (x, y)")
 
+            nsets = length(setEdge)
             edge <- .setEdge(setEdge)
             label <- .setLabel(setLabel)
             region <- .region(setEdge)
-            data = new(Class = "VennPlotData", setEdge = edge, setLabel = label, region = region)
+            data = new(Class = "VennPlotData",
+                       shapeId = shapeId,
+                       type = type,
+                       nsets = nsets,
+                       setEdge = edge,
+                       setLabel = label,
+                       region = region)
             data
           })
 
