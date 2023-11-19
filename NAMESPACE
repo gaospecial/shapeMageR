@@ -2,7 +2,6 @@
 
 export("%>%")
 export(Polygon)
-export(Venn)
 export(build_shape)
 export(circle)
 export(discern)
@@ -26,3 +25,4 @@ exportMethods(discern_overlap)
 exportMethods(overlap)
 importFrom(magrittr,"%>%")
 importFrom(methods,new)
+importFrom(utils,combn)

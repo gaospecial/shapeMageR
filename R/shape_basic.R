@@ -21,7 +21,6 @@ NULL
 #' @examples
 #' # plot the default ellipse
 #' library(sf)
-#' library(ggVennDiagram)
 #' ellipse() %>% st_linestring() %>% plot()
 ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
   rotation <- rotation * pi/180
@@ -39,7 +38,7 @@ ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
   x.coord[n+1] <- x.coord[1]
   y.coord[n+1] <- y.coord[1]
 
-  data.frame(x = x.coord, y = y.coord)
+  data.frame(x = x.coord, y = y.coord) |> as.matrix()
 }
 
 
@@ -54,7 +53,6 @@ ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
 #'
 #' @examples
 #' # plot the default circle
-#' library(ggVennDiagram)
 #' library(sf)
 #' circle() %>% st_linestring() %>% plot()
 circle <- function(x = 0, y = 0, r = 1, n=100){
@@ -63,10 +61,11 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
   y.coord <- y + sin(angles) * r
   x.coord[n] <- x.coord[1]
   y.coord[n] <- y.coord[1]
-  data.frame(x=x.coord, y=y.coord)
+  data.frame(x=x.coord, y=y.coord) |>
+    as.matrix()
 }
 
-#' defined a triangle by three points
+#' generating a triangle by three points
 #'
 #' @param xy coordinates of the three points defining a triangle
 #'
@@ -75,14 +74,20 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
 #'
 #' @examples
 #' # triangle coordinates
-#' library(ggVennDiagram)
 #' library(sf)
 #' triangle()
 #'
 #' # plot a new triangle
-#' triangle(c(-1,0,1,0,0,2)) %>% st_linestring() %>% plot()
+#' triangle() %>% st_linestring() %>% plot()
 triangle <- function(xy = c(0,0,1,0,0,1)){
-  xy <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE) |> as.data.frame()
+  xy <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE)
   colnames(xy) <- c("x","y")
   return(xy)
+}
+
+
+#' generating a rectangle by two or four points
+#'
+rectangle = function(){
+
 }

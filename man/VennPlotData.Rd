@@ -6,9 +6,9 @@
 \alias{VennPlotData,ANY-method}
 \title{VennPlotData constructor}
 \usage{
-VennPlotData(setEdge, setLabel)
+VennPlotData(shapeId, type, setEdge, setLabel)
 
-\S4method{VennPlotData}{ANY}(setEdge, setLabel)
+\S4method{VennPlotData}{ANY}(shapeId, type, setEdge, setLabel)
 }
 \arguments{
 \item{setEdge}{a list of coordinates matrix defining Venn set edges}

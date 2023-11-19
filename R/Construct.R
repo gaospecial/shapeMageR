@@ -12,8 +12,7 @@
 #'   and so on.
 #' @name Polygon-class
 setClass("Polygon",
-         slots = list(sets = "ANY", names = "ANY"),
-         contains = "Venn")
+         slots = list(sets = "ANY", names = "ANY"))
 
 
 #' Polygon class object constructor

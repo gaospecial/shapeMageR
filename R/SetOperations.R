@@ -1,4 +1,4 @@
-################## method for polygon intersection  ############
+################## Method for polygon intersection  ############
 
 #' calculate the overlapping region of `Polygon` object
 #'
@@ -59,6 +59,7 @@ setMethod("overlap", c(polygon = "Polygon", slice = "ANY"),
 #' @export
 #'
 #' @examples
+#'
 setGeneric("discern", function(polygon, slice1, slice2) standardGeneric("discern"))
 
 #' @rdname discern
@@ -91,6 +92,9 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
 )
 
 
+######## Method for polygon specific overlap ===========
+
+
 #' Calculate region of polygons
 #'
 #' @param polygon a Polygon object
@@ -101,16 +105,6 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
 #' @name discern_overlap
 #'
 #' @examples
-#' library(ggVennDiagram)
-#' venn <- Venn(list(A=1:3,B=2:5,C=c(1L,3L,5L)))
-#'
-#' discern_overlap(venn, slice = "all")
-#' # is equal to
-#' overlap(venn, slice = "all")
-#'
-#' # however, `discern_overlap()` only contains specific region
-#' discern_overlap(venn, slice = 1:2)
-#'
 setGeneric("discern_overlap", function(venn, slice = "all") standardGeneric("discern_overlap"))
 
 #' calculate the unique region defined by `Venn` object and the parameter `slice`
