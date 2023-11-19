@@ -11,6 +11,10 @@ VennPlotData(shapeId, type, setEdge, setLabel)
 \S4method{VennPlotData}{ANY}(shapeId, type, setEdge, setLabel)
 }
 \arguments{
+\item{shapeId}{shape id}
+
+\item{type}{type of shape, can be one of ellipse, circle, triangle, or polygon}
+
 \item{setEdge}{a list of coordinates matrix defining Venn set edges}
 
 \item{setLabel}{a list of coordinates matrix defining Venn set labels#'}

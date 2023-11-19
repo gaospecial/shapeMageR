@@ -59,7 +59,8 @@ setMethod("overlap", c(polygon = "Polygon", slice = "ANY"),
 #' @export
 #'
 #' @examples
-#'
+#' # don't run
+#' # discern(polygon, slice1 = 1)
 setGeneric("discern", function(polygon, slice1, slice2) standardGeneric("discern"))
 
 #' @rdname discern
@@ -105,20 +106,21 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
 #' @name discern_overlap
 #'
 #' @examples
-setGeneric("discern_overlap", function(venn, slice = "all") standardGeneric("discern_overlap"))
+#' # discern_overlap(polygon)
+setGeneric("discern_overlap", function(polygon, slice = "all") standardGeneric("discern_overlap"))
 
 #' calculate the unique region defined by `Venn` object and the parameter `slice`
 #'
 #' @export
-#' @name discern_overlap
-setMethod("discern_overlap", c(venn="Polygon", slice="ANY"),
-          function(venn, slice = "all"){
-            overlap = overlap(venn, slice = slice)
-            if (slice[1] == "all" | identical(venn@sets[slice], venn@sets)){
+#' @rdname discern_overlap
+setMethod("discern_overlap", c(polygon="Polygon", slice="ANY"),
+          function(polygon, slice = "all"){
+            overlap = overlap(polygon, slice = slice)
+            if (slice[1] == "all" | identical(polygon@sets[slice], polygon@sets)){
               discern = NULL
               return(overlap)
             } else {
-              discern = discern(venn, slice1 = slice, slice2 = "all")
+              discern = discern(polygon, slice1 = slice, slice2 = "all")
               return(sf::st_intersection(overlap, discern))
             }
           })

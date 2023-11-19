@@ -10,10 +10,16 @@ An S4 class to represent Venn plot components.
 \section{Slots}{
 
 \describe{
+\item{\code{shapeId}}{shape id}
+
 \item{\code{setEdge}}{a list of coordinates matrix defining Venn set edges}
 
-\item{\code{SetLabel}}{a list of coordinates matrix defining Venn set labels}
-
 \item{\code{region}}{the feature region will be calculated automatically with \code{setEdge}}
+
+\item{\code{type}}{type of shape}
+
+\item{\code{nsets}}{number of sets}
+
+\item{\code{setLabel}}{label of sets}
 }}
 

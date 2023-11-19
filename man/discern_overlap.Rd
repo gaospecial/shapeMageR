@@ -2,16 +2,17 @@
 % Please edit documentation in R/SetOperations.R
 \name{discern_overlap}
 \alias{discern_overlap}
+\alias{discern_overlap,Polygon-method}
 \title{Calculate region of polygons}
 \usage{
-discern_overlap(venn, slice = "all")
+discern_overlap(polygon, slice = "all")
 
-\S4method{discern_overlap}{Polygon}(venn, slice = "all")
+\S4method{discern_overlap}{Polygon}(polygon, slice = "all")
 }
 \arguments{
-\item{slice}{index of Venn members, default is "all"}
-
 \item{polygon}{a Polygon object}
+
+\item{slice}{index of Venn members, default is "all"}
 }
 \value{
 region items
@@ -20,4 +21,7 @@ region items
 Calculate region of polygons
 
 calculate the unique region defined by \code{Venn} object and the parameter \code{slice}
+}
+\examples{
+# discern_overlap(polygon)
 }
