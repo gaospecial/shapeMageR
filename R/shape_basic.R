@@ -38,7 +38,7 @@ ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
   x.coord[n+1] <- x.coord[1]
   y.coord[n+1] <- y.coord[1]
 
-  data.frame(x = x.coord, y = y.coord) |> as.matrix()
+  data.frame(x = x.coord, y = y.coord)
 }
 
 
@@ -61,8 +61,7 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
   y.coord <- y + sin(angles) * r
   x.coord[n] <- x.coord[1]
   y.coord[n] <- y.coord[1]
-  data.frame(x=x.coord, y=y.coord) |>
-    as.matrix()
+  data.frame(x=x.coord, y=y.coord)
 }
 
 #' generating a triangle by three points

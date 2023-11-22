@@ -87,7 +87,7 @@ setClass("VennPlotData",
 #' @param setEdge a list of coordinates matrix defining Venn set edges
 #' @param shapeId shape id
 #' @param type type of shape, can be one of ellipse, circle, triangle, or polygon
-#' @param setLabel a list of coordinates matrix defining Venn set labels#'
+#' @param setLabel a list of coordinates matrix defining Venn set labels
 #'
 #' @return a S4 class VennPlotData object
 #'
