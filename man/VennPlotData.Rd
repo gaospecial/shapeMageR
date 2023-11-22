@@ -17,7 +17,7 @@ VennPlotData(shapeId, type, setEdge, setLabel)
 
 \item{setEdge}{a list of coordinates matrix defining Venn set edges}
 
-\item{setLabel}{a list of coordinates matrix defining Venn set labels#'}
+\item{setLabel}{a list of coordinates matrix defining Venn set labels}
 }
 \value{
 a S4 class VennPlotData object

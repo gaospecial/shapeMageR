@@ -22,5 +22,5 @@ generating a circle
 \examples{
 # plot the default circle
 library(sf)
-circle() \%>\% st_linestring() \%>\% plot()
+circle() \%>\% as.matrix() |>  st_linestring() \%>\% plot()
 }

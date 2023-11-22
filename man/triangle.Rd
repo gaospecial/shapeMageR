@@ -21,5 +21,5 @@ library(sf)
 triangle()
 
 # plot a new triangle
-triangle() \%>\% st_linestring() \%>\% plot()
+triangle() \%>\% as.matrix() \%>\% st_linestring() \%>\% plot()
 }
