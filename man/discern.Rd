@@ -22,3 +22,7 @@ a Polygon object
 \description{
 Discern the 'true' unique region of \code{Polygon} object
 }
+\examples{
+# don't run
+# discern(polygon, slice1 = 1)
+}

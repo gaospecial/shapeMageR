@@ -11,8 +11,7 @@
 #'   and so on.
 #' @name Polygon-class
 setClass("Polygon",
-         slots = list(sets = "ANY", names = "ANY"),
-         contains = "Venn")
+         slots = list(sets = "ANY", names = "ANY"))
 
 
 #' Polygon class object constructor
@@ -69,12 +68,14 @@ setMethod("Polygon", c(sets = "ANY"),
 
 #' An S4 class to represent Venn plot components.
 #'
+#' @slot shapeId shape id
 #' @slot setEdge a list of coordinates matrix defining Venn set edges
-#' @slot SetLabel a list of coordinates matrix defining Venn set labels
 #' @slot region the feature region will be calculated automatically with `setEdge`
-#'
+#' @slot type type of shape
+#' @slot nsets number of sets
+#' @slot setLabel label of sets
 setClass("VennPlotData",
-         slots = list(shapeId = "ANY",
+         slots = c(shapeId = "ANY",
                       type = "ANY",
                       nsets = "ANY",
                       setEdge = "ANY",
@@ -84,7 +85,10 @@ setClass("VennPlotData",
 #' VennPlotData constructor
 #'
 #' @param setEdge a list of coordinates matrix defining Venn set edges
+#' @param shapeId shape id
+#' @param type type of shape, can be one of ellipse, circle, triangle, or polygon
 #' @param setLabel a list of coordinates matrix defining Venn set labels#'
+#'
 #' @return a S4 class VennPlotData object
 #'
 #' @name VennPlotData
