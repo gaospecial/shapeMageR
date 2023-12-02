@@ -1,6 +1,6 @@
 Package: shapeMageR
 Title: Generation of Complex Geometry for Plotting
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person("Chun-Hui", "Gao", , "gaospecial@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1445-7939"))
