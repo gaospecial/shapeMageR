@@ -18,13 +18,10 @@
 #' l
 unclass = function(obj){
   if (inherits(obj, "VennPlotData")){
-    l = list(
-      shapeId = obj@shapeId,
-      type = obj@type,
-      setEdge = obj@setEdge,
-      setLabel = obj@setLabel,
-      region = obj@region
-    )
+    slot_name = methods::slotNames(obj)
+    l = vector("list", length = length(slot_name))
+    l = lapply(slot_name, slot, object = obj)
+    names(l) = slot_name
     return(l)
   }
 
