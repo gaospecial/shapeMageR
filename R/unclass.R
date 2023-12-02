@@ -7,6 +7,8 @@
 #' @return a list
 #' @export
 #'
+#' @importFrom methods slot
+#'
 #' @examples
 #' # 4d ellipse
 #' f4e = VennPlotData(
