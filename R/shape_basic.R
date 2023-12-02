@@ -80,6 +80,7 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
 #' triangle() %>% as.matrix() %>% st_linestring() %>% plot()
 triangle <- function(xy = c(0,0,1,0,0,1)){
   xy <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE)
+  xy = as.data.frame(xy)
   colnames(xy) <- c("x","y")
   return(xy)
 }
