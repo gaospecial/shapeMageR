@@ -135,9 +135,9 @@ setMethod("VennPlotData", c(shapeId = "ANY",
   linestrings <- lapply(setEdge, sf::st_linestring)
   d <- tibble::tibble(
     id = as.character(seq_len(length(setEdge))),
-    geometry = linestrings
+    geometry = sf::st_as_sfc(linestrings)
   )
-  sf::st_as_sf(d)
+  return(d)
 }
 
 .setLabel <- function(setLabel){
@@ -145,9 +145,9 @@ setMethod("VennPlotData", c(shapeId = "ANY",
   points <- lapply(setLabel, sf::st_point)
   d <- tibble::tibble(
     id = as.character(seq_len(length(setLabel))),
-    geometry = points
+    geometry = sf::st_as_sfc(points)
   )
-  sf::st_as_sf(d)
+  return(d)
 }
 
 .region <- function(setEdge){
@@ -158,9 +158,9 @@ setMethod("VennPlotData", c(shapeId = "ANY",
   region_id <- get_region_ids(polygon)
   d <- tibble::tibble(
     id = region_id,
-    geometry = regions
+    geometry = sf::st_as_sfc(regions)
   )
-  sf::st_as_sf(d)
+  return(d)
 }
 
 get_region_items <- function(polygon){
