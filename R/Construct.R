@@ -133,7 +133,7 @@ setMethod("VennPlotData", c(shapeId = "ANY",
 .setEdge <- function(setEdge){
   setEdge = lapply(setEdge, as.matrix)
   linestrings <- lapply(setEdge, sf::st_linestring)
-  d <- tibble::tibble(
+  d <- data.frame(
     id = as.character(seq_len(length(setEdge))),
     geometry = sf::st_as_sfc(linestrings)
   )
@@ -143,7 +143,7 @@ setMethod("VennPlotData", c(shapeId = "ANY",
 .setLabel <- function(setLabel){
   setLabel = lapply(setLabel, as.matrix)
   points <- lapply(setLabel, sf::st_point)
-  d <- tibble::tibble(
+  d <- data.frame(
     id = as.character(seq_len(length(setLabel))),
     geometry = sf::st_as_sfc(points)
   )
@@ -156,7 +156,7 @@ setMethod("VennPlotData", c(shapeId = "ANY",
   polygon <- Polygon(polygons)
   regions <- get_region_items(polygon)
   region_id <- get_region_ids(polygon)
-  d <- tibble::tibble(
+  d <- data.frame(
     id = region_id,
     geometry = sf::st_as_sfc(regions)
   )
