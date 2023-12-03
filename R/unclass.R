@@ -31,3 +31,8 @@ unclass = function(obj){
           paste(class(obj), collapse = ", "), ".")
   invisible(NULL)
 }
+
+
+sf2df = function(x){
+
+}
