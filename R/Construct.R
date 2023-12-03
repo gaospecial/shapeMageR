@@ -173,7 +173,7 @@ get_region_items <- function(polygon){
 get_region_ids <- function(polygon){
   n = length(polygon@sets)
   c = combinations(n)
-  sapply(c, function(i) paste0(i, collapse = ""))
+  sapply(c, function(i) paste0(i, collapse = "/"))
 }
 
 
@@ -181,6 +181,6 @@ get_region_names <- function(polygon){
   n = length(polygon@sets)
   set_name = polygon@names
   c = combinations(n)
-  sapply(c, function(i) paste0(set_name[i], collapse = ".."))
+  sapply(c, function(i) paste0(set_name[i], collapse = "/"))
 }
 
