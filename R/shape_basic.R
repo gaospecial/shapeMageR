@@ -38,7 +38,9 @@ ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
   x.coord[n+1] <- x.coord[1]
   y.coord[n+1] <- y.coord[1]
 
-  data.frame(x = x.coord, y = y.coord)
+  m = matrix(c(x.coord, y.coord), ncol = 2)
+  colnames(m) = c("x", "y")
+  return(m)
 }
 
 
@@ -61,7 +63,9 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
   y.coord <- y + sin(angles) * r
   x.coord[n] <- x.coord[1]
   y.coord[n] <- y.coord[1]
-  data.frame(x=x.coord, y=y.coord)
+  m = matrix(c(x.coord, y.coord), ncol = 2)
+  colnames(m) = c("x", "y")
+  return(m)
 }
 
 #' generating a triangle by three points
@@ -79,10 +83,9 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
 #' # plot a new triangle
 #' triangle() %>% as.matrix() %>% st_linestring() %>% plot()
 triangle <- function(xy = c(0,0,1,0,0,1)){
-  xy <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE)
-  xy = as.data.frame(xy)
-  colnames(xy) <- c("x","y")
-  return(xy)
+  m <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE)
+  colnames(m) <- c("x","y")
+  return(m)
 }
 
 
