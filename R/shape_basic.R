@@ -21,7 +21,7 @@ NULL
 #' @examples
 #' # plot the default ellipse
 #' library(sf)
-#' ellipse() %>% as.matrix() %>% st_linestring() %>% plot()
+#' ellipse()  |>  plot()
 ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
   rotation <- rotation * pi/180
   theta <- 2 * pi/n
@@ -55,8 +55,7 @@ ellipse <- function(x = 0, y = 0, a = 2, b = 1, rotation = 0, n = 100){
 #'
 #' @examples
 #' # plot the default circle
-#' library(sf)
-#' circle() %>% as.matrix() |>  st_linestring() %>% plot()
+#' circle() |> plot()
 circle <- function(x = 0, y = 0, r = 1, n=100){
   angles <- seq(0,2*pi,length.out = n)
   x.coord <- x + cos(angles) * r
@@ -68,20 +67,25 @@ circle <- function(x = 0, y = 0, r = 1, n=100){
   return(m)
 }
 
-#' generating a triangle by three points
+#' generating a polygon such as triangle and rectangle by given vertex
 #'
-#' @param xy coordinates of the three points defining a triangle
+#'
+#' @param xy coordinates of the vertex defining a polygon
 #'
 #' @export
 #' @return a matrix with xy coordinates
-#'
+#' @name polygon
 #' @examples
 #' # triangle coordinates
-#' library(sf)
 #' triangle()
 #'
 #' # plot a new triangle
-#' triangle() %>% as.matrix() %>% st_linestring() %>% plot()
+#' t = triangle()
+#' plot(t, type = "l")
+#'
+#' # plot a new rectangle
+#' r = rectangle()
+#' plot(r, type = "l")
 triangle <- function(xy = c(0,0,1,0,0,1)){
   m <- matrix(rep(xy, length.out =8), ncol=2, byrow = TRUE)
   colnames(m) <- c("x","y")
@@ -89,8 +93,10 @@ triangle <- function(xy = c(0,0,1,0,0,1)){
 }
 
 
-#' generating a rectangle by two or four points
-#'
-rectangle = function(){
-
+#' @rdname polygon
+#' @export
+rectangle = function(xy = c(0,0,0,1,1,1,1,0)){
+  m = matrix(rep(xy, length.out = 10), ncol = 2, byrow = TRUE)
+  colnames(m) = c("x","y")
+  return(m)
 }
