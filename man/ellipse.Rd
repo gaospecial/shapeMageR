@@ -28,5 +28,5 @@ to a POLYGON sf object.
 \examples{
 # plot the default ellipse
 library(sf)
-ellipse() \%>\% as.matrix() \%>\% st_linestring() \%>\% plot()
+ellipse()  |>  plot()
 }
