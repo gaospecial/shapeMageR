@@ -26,8 +26,25 @@ fancy_4d_ellipse <- function(parameters = NULL, n = 100){
 }
 
 
+#' helper function to set label position
+#'
+#' @param position a two column (x, y) data.frame containing label coordinates
 #' @export
-#' @rdname label_position
+#'
+#' @return a list of matrix
+#' @name label_position
+#'
+#' @details
+#' - `label_position`: basal wrapper for label positions
+#' - `fancy_6d_triangle_label`: 6 sets triangle label position work with `fancy_6d_triangle`
+#' - `fancy_4d_ellipse_label`: 4 sets ellipse label position work with `fancy_4d_ellipse`
+#' - `fancy_3d_circle_label`: 3 sets circle label position work with `fancy_3d_circle`
+#' - `fancy_2d_circle_label`: 2 sets circle label position work with `fancy_2d_circle`
+#' @md
+#'
+#' @examples
+#' fancy_4d_ellipse_label()
+#' fancy_2d_circle_label()
 fancy_4d_ellipse_label <- function(position = NULL) {
   if (is.null(position)) {
     position = tibble::tribble(
@@ -38,7 +55,7 @@ fancy_4d_ellipse_label <- function(position = NULL) {
       0.93, 0.78
     )
   }
-  label_position(position)
+  to_matrix_list(position)
 }
 
 ############## Three dimension circle #########
@@ -68,7 +85,7 @@ fancy_3d_circle_label <- function(position = NULL){
       7.5,     4.6,
       2,      -8.5
     )
-  label_position(position)
+  to_matrix_list(position)
 }
 
 #' two dimension circle
@@ -94,7 +111,7 @@ fancy_2d_circle_label <- function(position = NULL){
       -5,      0,
       -5,      4
     )
-  label_position(position)
+  to_matrix_list(position)
 }
 
 #' Six dimension triangle
@@ -131,29 +148,11 @@ fancy_6d_triangle_label <- function(position = NULL){
       140000,    300000,
       -20000,   270000
     )
-  label_position(position)
+  to_matrix_list(position)
 }
 
-#' helper function to set label position
-#'
-#' @param position a two column (x, y) data.frame containing label coordinates
-#' @export
-#'
-#' @return a list of matrix
-#' @name label_position
-#'
-#' @details
-#' - `label_position`: basal wrapper for label positions
-#' - `fancy_6d_triangle_label`: 6 sets triangle label position work with `fancy_6d_triangle`
-#' - `fancy_4d_ellipse_label`: 4 sets ellipse label position work with `fancy_4d_ellipse`
-#' - `fancy_3d_circle_label`: 3 sets circle label position work with `fancy_3d_circle`
-#' - `fancy_2d_circle_label`: 2 sets circle label position work with `fancy_2d_circle`
-#' @md
-#'
-#' @examples
-#' fancy_4d_ellipse_label()
-#' fancy_2d_circle_label()
-label_position <- function(position){
+
+to_matrix_list <- function(position){
   points <- lapply(seq_len(nrow(position)),function(i){
     position[i,]
   })
