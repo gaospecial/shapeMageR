@@ -3,7 +3,7 @@
 # Are Polygon objects equal to MULTIPOLYGON or GEOMETRYCOLLECTION?
 # No. MULTIPOLYGON is a special form of Polygon.
 
-#' An S4 class to represent multiple polygons.
+#' An S4 class to represent multiple shapes/polygons.
 #'
 #' @slot sets A list contains sets
 #' @slot names The names of the `sets` if has names. If the `list`
@@ -76,14 +76,16 @@ setMethod("Polygon", c(sets = "ANY"),
 #' @slot setLabel label of sets
 setClass("VennPlotData",
          slots = c(shapeId = "ANY",
-                      type = "ANY",
-                      nsets = "ANY",
-                      setEdge = "ANY",
-                      setLabel = "ANY",
-                      region = "ANY"))
+                   type = "ANY",
+                   nsets = "ANY",
+                   setEdge = "ANY",
+                   setLabel = "ANY",
+                   regionEdge = "ANY",
+                   regionLabel = "ANY"))
 
 #' VennPlotData constructor
 #'
+#' Region Edge and Label will be caculated automatically with functions from `sf` package.
 #' @param setEdge a list of coordinates matrix defining Venn set edges
 #' @param shapeId shape id
 #' @param type type of shape, can be one of ellipse, circle, triangle, or polygon
@@ -113,25 +115,26 @@ setMethod("VennPlotData", c(shapeId = "ANY",
               stop("SetEdge/setLabel must be a list.")
             if (length(setEdge) != length(setLabel))
               stop("SetEdge/setlabel must be the same length.")
-            if (!all(sapply(setEdge, is.data.frame), sapply(setLabel, is.data.frame)))
-              stop("The element in setEdge/setLabel must be a data.frame with two columns (x, y)")
+            if (!all(sapply(setEdge, is.matrix), sapply(setLabel, is.matrix)))
+              stop("The element in setEdge/setLabel must be a matrix with two columns (x, y)")
 
             nsets = length(setEdge)
-            edge <- .setEdge(setEdge)
-            label <- .setLabel(setLabel)
-            region <- .region(setEdge)
+            set_Edge = .setEdge(setEdge)
+            set_Label = .setLabel(setLabel)
+            region_Edge = .regionEdge(setEdge)
+            region_Label = .regionLabel(region_Edge)
             data = new(Class = "VennPlotData",
                        shapeId = shapeId,
                        type = type,
                        nsets = nsets,
-                       setEdge = edge,
-                       setLabel = label,
-                       region = region)
+                       setEdge = set_Edge,
+                       setLabel = set_Label,
+                       regionEdge = region_Edge,
+                       regionLabel = region_Label)
             data
           })
 
 .setEdge <- function(setEdge){
-  setEdge = lapply(setEdge, as.matrix)
   linestrings <- lapply(setEdge, sf::st_linestring)
   d <- data.frame(
     id = as.character(seq_len(length(setEdge))),
@@ -141,7 +144,6 @@ setMethod("VennPlotData", c(shapeId = "ANY",
 }
 
 .setLabel <- function(setLabel){
-  setLabel = lapply(setLabel, as.matrix)
   points <- lapply(setLabel, sf::st_point)
   d <- data.frame(
     id = as.character(seq_len(length(setLabel))),
@@ -150,8 +152,7 @@ setMethod("VennPlotData", c(shapeId = "ANY",
   return(d)
 }
 
-.region <- function(setEdge){
-  setEdge = lapply(setEdge, as.matrix)
+.regionEdge <- function(setEdge){
   polygons <- lapply(setEdge, function(x) sf::st_polygon(list(x)))
   polygon <- Polygon(polygons)
   regions <- get_region_items(polygon)
@@ -161,6 +162,12 @@ setMethod("VennPlotData", c(shapeId = "ANY",
     geometry = sf::st_as_sfc(regions)
   )
   return(d)
+}
+
+.regionLabel = function(regionEdge){
+  regionLabel = regionEdge
+  regionLabel$geometry = sf::st_centroid(regionLabel$geometry)
+  return(regionLabel)
 }
 
 get_region_items <- function(polygon){

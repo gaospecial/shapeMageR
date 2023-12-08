@@ -154,7 +154,7 @@ fancy_6d_triangle_label <- function(position = NULL){
 
 to_matrix_list <- function(position){
   points <- lapply(seq_len(nrow(position)),function(i){
-    position[i,]
+    as.matrix(position[i,])
   })
   points
 }
