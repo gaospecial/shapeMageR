@@ -3,9 +3,9 @@
 \docType{class}
 \name{Polygon-class}
 \alias{Polygon-class}
-\title{An S4 class to represent multiple polygons.}
+\title{An S4 class to represent multiple shapes/polygons.}
 \description{
-An S4 class to represent multiple polygons.
+An S4 class to represent multiple shapes/polygons.
 }
 \section{Slots}{
 

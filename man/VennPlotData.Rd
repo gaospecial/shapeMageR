@@ -23,5 +23,12 @@ VennPlotData(shapeId, type, setEdge, setLabel)
 a S4 class VennPlotData object
 }
 \description{
-VennPlotData constructor
+Region Edge and Label will be caculated automatically with functions from \code{sf} package.
+}
+\examples{
+# construct a VennPlotData
+venn = VennPlotData(shapeId = "1",
+                    type = "e",
+                    setEdge = fancy_4d_ellipse(),
+                    setLabel = fancy_4d_ellipse_label())
 }

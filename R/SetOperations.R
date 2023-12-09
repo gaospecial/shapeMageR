@@ -13,8 +13,8 @@
 #' @examples
 #'   library("sf")
 #'
-#'   # a rectangle
-#'  v1 = rbind(c(0,0),c(0,1),c(1,1),c(1,0), c(0,0))
+#'  # a rectangle
+#'  v1 = rbind(c(0,0),c(0,1),c(1,1),c(1,0),c(0,0))
 #'  rect = st_polygon(list(v1))
 #'
 #'  # a triangle
@@ -35,6 +35,7 @@ setGeneric("overlap", function(polygon, slice = "all") standardGeneric("overlap"
 #' @export
 setMethod("overlap", c(polygon = "Polygon", slice = "ANY"),
           function(polygon, slice = "all"){
+            slice = slice_idx(polygon, slice)
             if (slice[1] != "all"){
               polygon2 = polygon@sets[slice]
               inter = purrr::reduce(polygon2, function(x,y) sf::st_intersection(x,y))
@@ -69,16 +70,10 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
           function(polygon,
                    slice1,
                    slice2 = "all") {
-            if (is.numeric(slice1)) {
-              slice1 = names(polygon@sets)[slice1]
-            }
-
-            if (is.numeric(slice2)) {
-              slice2 = names(polygon@sets)[slice2]
-            }
-
-            if (slice2[1] == "all") {
-              slice2 = setdiff(names(polygon@sets), slice1)
+            slice1 = slice_idx(polygon, slice1)
+            slice2 = slice_idx(polygon, slice2)
+            if (slice2 == "all") {
+              slice2 = polygon@setName[-slice1]
               set1 = polygon@sets[slice1] %>% purrr::reduce(function(x, y) sf::st_union(x, y))
               set2 = polygon@sets[slice2] %>% purrr::reduce(function(x, y) sf::st_union(x, y))
               differ = sf::st_difference(set1, set2)
@@ -91,6 +86,8 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
             differ
           }
 )
+
+
 
 
 ######## Method for polygon specific overlap ===========
@@ -115,8 +112,9 @@ setGeneric("discern_overlap", function(polygon, slice = "all") standardGeneric("
 #' @rdname discern_overlap
 setMethod("discern_overlap", c(polygon="Polygon", slice="ANY"),
           function(polygon, slice = "all"){
+            slice = slice_idx(polygon, slice)
             overlap = overlap(polygon, slice = slice)
-            if (slice[1] == "all" | identical(polygon@sets[slice], polygon@sets)){
+            if (any(slice == "all") | identical(polygon@sets[slice], polygon@sets)){
               discern = NULL
               return(overlap)
             } else {
@@ -126,3 +124,37 @@ setMethod("discern_overlap", c(polygon="Polygon", slice="ANY"),
           })
 
 
+######## Check and format slice name ======
+
+#' check and format slice name
+#'
+#' @param polygon a Polygon object
+#' @param slice a numeric or character vector
+#'
+#' @return the index of polygon [numeric vector] or "all"
+slice_idx = function(polygon, slice){
+  set_name = polygon@setName
+  if (is.numeric(slice)){
+    found = slice %in% seq_along(set_name)
+    if (all(found)){
+      return(slice)
+    } else {
+      stop(paste("slice is not valid:", slice[!found]))
+    }
+  }
+  if (is.character(slice)){
+    if (any(slice == "all")){
+      return("all")
+    } else {
+      matches = match(slice, set_name)
+      if (all(!is.na(matches))){
+        slice = matches
+        return(slice)
+      } else {
+        non_exist_item = slice[is.na(matches)]
+        stop(paste(non_exist_item, "is not found in this object."))
+      }
+    }
+  }
+  stop("slice should either be a character or numeric vector.")
+}

@@ -23,8 +23,8 @@ calculate the overlapping region of \code{Polygon} object
 \examples{
   library("sf")
 
-  # a rectangle
- v1 = rbind(c(0,0),c(0,1),c(1,1),c(1,0), c(0,0))
+ # a rectangle
+ v1 = rbind(c(0,0),c(0,1),c(1,1),c(1,0),c(0,0))
  rect = st_polygon(list(v1))
 
  # a triangle

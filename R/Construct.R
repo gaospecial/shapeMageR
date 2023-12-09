@@ -11,7 +11,7 @@
 #'   and so on.
 #' @name Polygon-class
 setClass("Polygon",
-         slots = list(sets = "ANY", names = "ANY"))
+         slots = list(sets = "ANY", setName = "ANY"))
 
 
 #' Polygon class object constructor
@@ -30,35 +30,13 @@ setGeneric("Polygon", function(sets){
 #' @importFrom methods new
 setMethod("Polygon", c(sets = "ANY"),
           function(sets){
-            if (!is.list(sets)){
-              stop("Data sets should be a list.")
+            set_name = names(sets)
+            if (is.null(set_name)){
+              set_name = paste("Set", seq_along(sets), sep = "_")
             }
-
-            if (sum(sapply(sets, is.null) == TRUE) >= 1){
-              sets = sets[!(sapply(sets, is.null))]
-            }
-
-            if (length(sets) < 1){
-              stop("The list should contain at least 1 vector.")
-            }
-
-            if (length(unique(lapply(sets, class))) != 1) {
-              stop("Vectors should be in the same class.")
-            }
-
-            if (!(sapply(sets, class)[1] %in% c("XY", "POLYGON", "sfg"))) {
-              stop("The list must contain only XY, POLYGON or sfg object.")
-            }
-
-            polygon = new(Class = "Polygon", sets = sets)
-
-            if (is.null(names(polygon@sets))) {
-              names(polygon@sets) = paste("Set", seq_len(length(polygon@sets)), sep = "_")
-            }
-
-            polygon@names = names(polygon@sets)
-
-            polygon
+            names(sets) = set_name
+            polygon = new(Class = "Polygon", sets = sets, setName = set_name)
+            return(polygon)
           })
 
 ############# Class VennPlotData  ###################
@@ -86,15 +64,22 @@ setClass("VennPlotData",
 #' VennPlotData constructor
 #'
 #' Region Edge and Label will be caculated automatically with functions from `sf` package.
-#' @param setEdge a list of coordinates matrix defining Venn set edges
+#'
 #' @param shapeId shape id
 #' @param type type of shape, can be one of ellipse, circle, triangle, or polygon
+#' @param setEdge a list of coordinates matrix defining Venn set edges
 #' @param setLabel a list of coordinates matrix defining Venn set labels
 #'
 #' @return a S4 class VennPlotData object
 #'
 #' @name VennPlotData
 #' @docType methods
+#' @examples
+#' # construct a VennPlotData
+#' venn = VennPlotData(shapeId = "1",
+#'                     type = "e",
+#'                     setEdge = fancy_4d_ellipse(),
+#'                     setLabel = fancy_4d_ellipse_label())
 setGeneric("VennPlotData", function(shapeId, type, setEdge, setLabel){
   standardGeneric("VennPlotData")
 })
@@ -115,6 +100,8 @@ setMethod("VennPlotData", c(shapeId = "ANY",
               stop("SetEdge/setLabel must be a list.")
             if (length(setEdge) != length(setLabel))
               stop("SetEdge/setlabel must be the same length.")
+            if (length(setEdge) < 1)
+              stop("SetEdge/SetLabel should have at least one item.")
             if (!all(sapply(setEdge, is.matrix), sapply(setLabel, is.matrix)))
               stop("The element in setEdge/setLabel must be a matrix with two columns (x, y)")
 
