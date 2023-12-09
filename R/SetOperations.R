@@ -1,6 +1,8 @@
 ################## Method for polygon intersection  ############
 
-#' calculate the overlapping region of `Polygon` object
+#' Calculate the overlapping region of `Polygon` object
+#'
+#' It returns the overlapping region of all slices in `Polygon` object.
 #'
 #' @name overlap
 #'
@@ -38,9 +40,9 @@ setMethod("overlap", c(polygon = "Polygon", slice = "ANY"),
             slice = slice_idx(polygon, slice)
             if (slice[1] != "all"){
               polygon2 = polygon@sets[slice]
-              inter = purrr::reduce(polygon2, function(x,y) sf::st_intersection(x,y))
+              inter = Reduce(sf::st_intersection, polygon2)
             } else {
-              inter = purrr::reduce(polygon@sets, function(x,y) sf::st_intersection(x,y))
+              inter = Reduce(sf::st_intersection, polygon@sets)
             }
             return(inter)
           })
@@ -48,20 +50,20 @@ setMethod("overlap", c(polygon = "Polygon", slice = "ANY"),
 
 ################ Method for polygon difference ############
 
-#' Discern the 'true' unique region of `Polygon` object
+#' Calculate the region `slice1` has but `slice2` doesn't have of `Polygon` object
 #'
 #' @name discern
 #'
 #' @param polygon Polygon object
 #' @param slice1 first slice of Polygon object
-#' @param slice2 second slice of Polygon object, default is all except the first slice
+#' @param slice2 second slice of Polygon object, default is "all" except the first slice
 #'
 #' @return a Polygon object
 #' @export
 #'
 #' @examples
 #' # don't run
-#' # discern(polygon, slice1 = 1)
+#' # discern(polygon, slice1 = 1, slice2 = "all")
 setGeneric("discern", function(polygon, slice1, slice2) standardGeneric("discern"))
 
 #' @rdname discern
@@ -72,14 +74,14 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
                    slice2 = "all") {
             slice1 = slice_idx(polygon, slice1)
             slice2 = slice_idx(polygon, slice2)
-            if (slice2 == "all") {
+            if (slice2[[1]] == "all") {
               slice2 = polygon@setName[-slice1]
-              set1 = polygon@sets[slice1] %>% purrr::reduce(function(x, y) sf::st_union(x, y))
-              set2 = polygon@sets[slice2] %>% purrr::reduce(function(x, y) sf::st_union(x, y))
+              set1 = Reduce(sf::st_union, polygon@sets[slice1])
+              set2 = Reduce(sf::st_union, polygon@sets[slice2])
               differ = sf::st_difference(set1, set2)
             } else {
-              set1 = polygon@sets[slice1] %>% purrr::reduce(function(x, y) sf::st_union(x, y))
-              set2 = polygon@sets[slice2] %>% purrr::reduce(function(x, y) sf::st_union(x, y))
+              set1 = Reduce(sf::st_union, polygon@sets[slice1])
+              set2 = Reduce(sf::st_union, polygon@sets[slice2])
               differ = sf::st_difference(set1, set2)
             }
 
@@ -93,7 +95,7 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
 ######## Method for polygon specific overlap ===========
 
 
-#' Calculate region of polygons
+#' Calculate the 'unique' region defined by `Venn` object and the parameter `slice`
 #'
 #' @param polygon a Polygon object
 #' @param slice index of Venn members, default is "all"
@@ -106,8 +108,6 @@ setMethod("discern", c(polygon = "Polygon", slice1 = "ANY", slice2 = "ANY"),
 #' # discern_overlap(polygon)
 setGeneric("discern_overlap", function(polygon, slice = "all") standardGeneric("discern_overlap"))
 
-#' calculate the unique region defined by `Venn` object and the parameter `slice`
-#'
 #' @export
 #' @rdname discern_overlap
 setMethod("discern_overlap", c(polygon="Polygon", slice="ANY"),

@@ -3,7 +3,7 @@
 \name{discern}
 \alias{discern}
 \alias{discern,Polygon-method}
-\title{Discern the 'true' unique region of \code{Polygon} object}
+\title{Calculate the region \code{slice1} has but \code{slice2} doesn't have of \code{Polygon} object}
 \usage{
 discern(polygon, slice1, slice2)
 
@@ -14,15 +14,15 @@ discern(polygon, slice1, slice2)
 
 \item{slice1}{first slice of Polygon object}
 
-\item{slice2}{second slice of Polygon object, default is all except the first slice}
+\item{slice2}{second slice of Polygon object, default is "all" except the first slice}
 }
 \value{
 a Polygon object
 }
 \description{
-Discern the 'true' unique region of \code{Polygon} object
+Calculate the region \code{slice1} has but \code{slice2} doesn't have of \code{Polygon} object
 }
 \examples{
 # don't run
-# discern(polygon, slice1 = 1)
+# discern(polygon, slice1 = 1, slice2 = "all")
 }

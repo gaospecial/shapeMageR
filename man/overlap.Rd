@@ -3,7 +3,7 @@
 \name{overlap}
 \alias{overlap}
 \alias{overlap,Polygon-method}
-\title{calculate the overlapping region of \code{Polygon} object}
+\title{Calculate the overlapping region of \code{Polygon} object}
 \usage{
 overlap(polygon, slice = "all")
 
@@ -18,7 +18,7 @@ overlap(polygon, slice = "all")
 a Polygon object
 }
 \description{
-calculate the overlapping region of \code{Polygon} object
+It returns the overlapping region of all slices in \code{Polygon} object.
 }
 \examples{
   library("sf")

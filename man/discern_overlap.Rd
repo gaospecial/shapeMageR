@@ -3,7 +3,7 @@
 \name{discern_overlap}
 \alias{discern_overlap}
 \alias{discern_overlap,Polygon-method}
-\title{Calculate region of polygons}
+\title{Calculate the 'unique' region defined by \code{Venn} object and the parameter \code{slice}}
 \usage{
 discern_overlap(polygon, slice = "all")
 
@@ -18,9 +18,7 @@ discern_overlap(polygon, slice = "all")
 region items
 }
 \description{
-Calculate region of polygons
-
-calculate the unique region defined by \code{Venn} object and the parameter \code{slice}
+Calculate the 'unique' region defined by \code{Venn} object and the parameter \code{slice}
 }
 \examples{
 # discern_overlap(polygon)
