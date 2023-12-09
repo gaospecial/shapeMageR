@@ -1,6 +1,6 @@
 Package: shapeMageR
 Title: Generation of Complex Geometry for Plotting
-Version: 0.0.7
+Version: 0.0.9
 Authors@R: 
     person("Chun-Hui", "Gao", , "gaospecial@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1445-7939"))
@@ -13,11 +13,8 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
-    magrittr,
     methods,
-    purrr,
-    sf,
-    tibble
+    sf
 Depends: 
     R (>= 4.1)
 LazyData: true

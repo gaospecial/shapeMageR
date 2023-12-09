@@ -47,12 +47,9 @@ fancy_4d_ellipse <- function(parameters = NULL, n = 100){
 #' fancy_2d_circle_label()
 fancy_4d_ellipse_label <- function(position = NULL) {
   if (is.null(position)) {
-    position = tibble::tribble(
-      ~x,    ~y,
-      0.08, 0.78,
-      0.26, 0.86,
-      0.71, 0.85,
-      0.93, 0.78
+    position = data.frame(
+      x = c(0.08, 0.26, 0.71, 0.93),  # x coordinate
+      y = c(0.78, 0.86, 0.85, 0.78)   # y coordinate
     )
   }
   to_matrix_list(position)
@@ -79,11 +76,9 @@ fancy_3d_circle <- function(parameters = NULL, n = 100){
 #' @rdname label_position
 fancy_3d_circle_label <- function(position = NULL){
   if (is.null(position))
-    position <- tibble::tribble(
-      ~x,       ~y,
-      -3.5,     4.6,
-      7.5,     4.6,
-      2,      -8.5
+    position = data.frame(
+      x = c(-3.5, 7.5, 2.0),
+      y = c(4.6, 4.6, -8.5)
     )
   to_matrix_list(position)
 }
@@ -106,10 +101,9 @@ fancy_2d_circle <- function(parameters = NULL, n = 100){
 #' @rdname label_position
 fancy_2d_circle_label <- function(position = NULL){
   if (is.null(position))
-    position <- tibble::tribble(
-      ~x,       ~y,
-      -5,      0,
-      -5,      4
+    position = data.frame(
+      x = c(-5, -5),
+      y = c( 0,  4)
     )
   to_matrix_list(position)
 }
@@ -139,14 +133,9 @@ fancy_6d_triangle <- function(parameters = NULL){
 #' @rdname label_position
 fancy_6d_triangle_label <- function(position = NULL){
   if (is.null(position))
-    position <- tibble::tribble(
-      ~x,       ~y,
-      -50000,     50000,
-      60000,          0,
-      160000,     20000,
-      280000,    170000,
-      140000,    300000,
-      -20000,   270000
+    position <- data.frame(
+      x = c(-50000, 60000, 160000, 280000, 140000, -20000),
+      y = c( 50000,     0,  20000, 170000, 300000, 270000)
     )
   to_matrix_list(position)
 }
