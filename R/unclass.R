@@ -4,7 +4,7 @@
 #'
 #' @param obj a VennPlotData object
 #'
-#' @return a list
+#' @return a list, the items are data.frame for plot
 #' @export
 #'
 #' @importFrom methods slot
@@ -24,6 +24,7 @@ unclass = function(obj){
     l = vector("list", length = length(slot_name))
     l = lapply(slot_name, slot, object = obj)
     names(l) = slot_name
+    l = lapply(l, sfc2df)
     return(l)
   }
 
@@ -33,6 +34,26 @@ unclass = function(obj){
 }
 
 
-sf2df = function(x){
+# from sfc to a combined/tidy data.frame
+sfc2df = function(x){
+  if (!is.data.frame(x)) return(x)
+  if ("geometry" %in% colnames(x)){
+    geometry = x$geometry
+    list = lapply(seq_along(geometry), function(i){
+        sfg2df(geometry[[i]], x$id[[i]])
+      })
+    data = do.call("rbind", list)
+    return(data)
+  } else {
+    stop("Must have a geometry column (sfc).")
+  }
+}
 
+# from a sfg to a data.frame
+sfg2df = function(sfg, id){
+  coords = sf::st_coordinates(sfg)
+  coords = as.data.frame(coords)
+  coords$id = id
+  coords = coords[,c("id","X","Y")]
+  return(coords)
 }

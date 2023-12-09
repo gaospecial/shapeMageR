@@ -10,7 +10,7 @@ unclass(obj)
 \item{obj}{a VennPlotData object}
 }
 \value{
-a list
+a list, the items are data.frame for plot
 }
 \description{
 Unlink shapes from the 'shapeMageR' package.
