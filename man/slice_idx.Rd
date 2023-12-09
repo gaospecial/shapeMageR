@@ -12,7 +12,7 @@ slice_idx(polygon, slice)
 \item{slice}{a numeric or character vector}
 }
 \value{
-the index of polygon \link{numeric vector} or "all"
+the index of polygon (numeric vector) or "all"
 }
 \description{
 check and format slice name

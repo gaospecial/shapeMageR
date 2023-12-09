@@ -131,7 +131,7 @@ setMethod("discern_overlap", c(polygon="Polygon", slice="ANY"),
 #' @param polygon a Polygon object
 #' @param slice a numeric or character vector
 #'
-#' @return the index of polygon [numeric vector] or "all"
+#' @return the index of polygon (numeric vector) or "all"
 slice_idx = function(polygon, slice){
   set_name = polygon@setName
   if (is.numeric(slice)){
