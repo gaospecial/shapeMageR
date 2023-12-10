@@ -39,10 +39,10 @@ setMethod("Polygon", c(sets = "ANY"),
             return(polygon)
           })
 
-############# Class VennPlotData  ###################
+############# Class VennShape  ###################
 # Some of the code should be moved to ggVennDiagram.
 # We need to directly retrieved shapes from sysdata,
-# and contruct VennPlotData with region items.
+# and construct VennShape with region items.
 
 #' An S4 class to represent Venn plot components.
 #'
@@ -53,7 +53,7 @@ setMethod("Polygon", c(sets = "ANY"),
 #' @slot setLabel label of sets
 #' @slot regionEdge the feature region will be calculated automatically with `setEdge`
 #' @slot regionLabel the centroid of region, where region label appears
-setClass("VennPlotData",
+setClass("VennShape",
          slots = c(shapeId = "ANY",
                    type = "ANY",
                    nsets = "ANY",
@@ -62,7 +62,7 @@ setClass("VennPlotData",
                    regionEdge = "ANY",
                    regionLabel = "ANY"))
 
-#' VennPlotData constructor
+#' VennShape constructor
 #'
 #' Region Edge and Label will be caculated automatically with functions from `sf` package.
 #'
@@ -71,26 +71,26 @@ setClass("VennPlotData",
 #' @param setEdge a list of coordinates matrix defining Venn set edges
 #' @param setLabel a list of coordinates matrix defining Venn set labels
 #'
-#' @return a S4 class VennPlotData object
+#' @return a S4 class VennShape object
 #'
-#' @name VennPlotData
+#' @name VennShape
 #' @docType methods
 #' @examples
-#' # construct a VennPlotData
-#' venn = VennPlotData(shapeId = "1",
+#' # construct a VennShape
+#' venn = VennShape(shapeId = "1",
 #'                     type = "e",
 #'                     setEdge = fancy_4d_ellipse(),
 #'                     setLabel = fancy_4d_ellipse_label())
-setGeneric("VennPlotData", function(shapeId, type, setEdge, setLabel){
-  standardGeneric("VennPlotData")
+setGeneric("VennShape", function(shapeId, type, setEdge, setLabel){
+  standardGeneric("VennShape")
 })
 
 
 
-#' @rdname VennPlotData
+#' @rdname VennShape
 #' @export
 #' @importFrom methods new
-setMethod("VennPlotData", c(shapeId = "ANY",
+setMethod("VennShape", c(shapeId = "ANY",
                             type = "ANY",
                             setEdge = "ANY",
                             setLabel = "ANY"),
@@ -111,7 +111,7 @@ setMethod("VennPlotData", c(shapeId = "ANY",
             set_Label = .setLabel(setLabel)
             region_Edge = .regionEdge(setEdge)
             region_Label = .regionLabel(region_Edge)
-            data = new(Class = "VennPlotData",
+            data = new(Class = "VennShape",
                        shapeId = shapeId,
                        type = type,
                        nsets = nsets,

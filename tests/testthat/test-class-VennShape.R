@@ -1,12 +1,12 @@
-test_that("VennPlotData methods work", {
+test_that("VennShape methods work", {
   set_Edge = fancy_2d_circle()
-  v = VennPlotData(
+  v = VennShape(
     shapeId = "1",
     type = "circle",
     setEdge = set_Edge,
     setLabel = fancy_2d_circle_label()
   )
-  expect_s4_class(v, "VennPlotData")
+  expect_s4_class(v, "VennShape")
   expect_equal(v@nsets, 2L)
 
   # test intersection
