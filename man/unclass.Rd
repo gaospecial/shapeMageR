@@ -7,7 +7,7 @@
 unclass(obj)
 }
 \arguments{
-\item{obj}{a VennPlotData object}
+\item{obj}{a VennShape object}
 }
 \value{
 a list, the items are data.frame for plot
@@ -17,11 +17,7 @@ Unlink shapes from the 'shapeMageR' package.
 }
 \examples{
 # 4d ellipse
-f4e = VennPlotData(
-  shapeId = "401f",
-  type = "ellipse",
-  setEdge = fancy_4d_ellipse(),  # how to store object in data.frame
-  setLabel =  fancy_4d_ellipse_label())
+f4e = VennShape("401f", "ellipse", fancy_4d_ellipse(), fancy_4d_ellipse_label())
 l = unclass(f4e)
 l
 }

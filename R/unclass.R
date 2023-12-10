@@ -2,37 +2,26 @@
 #'
 #' Unlink shapes from the 'shapeMageR' package.
 #'
-#' @param obj a VennPlotData object
+#' @param obj a VennShape object
 #'
 #' @return a list, the items are data.frame for plot
-#' @export
 #'
 #' @importFrom methods slot
+#' @export
 #'
 #' @examples
 #' # 4d ellipse
-#' f4e = VennPlotData(
-#'   shapeId = "401f",
-#'   type = "ellipse",
-#'   setEdge = fancy_4d_ellipse(),  # how to store object in data.frame
-#'   setLabel =  fancy_4d_ellipse_label())
+#' f4e = VennShape("401f", "ellipse", fancy_4d_ellipse(), fancy_4d_ellipse_label())
 #' l = unclass(f4e)
 #' l
 unclass = function(obj){
-  if (inherits(obj, "VennPlotData")){
-    slot_name = methods::slotNames(obj)
-    l = vector("list", length = length(slot_name))
-    l = lapply(slot_name, slot, object = obj)
-    names(l) = slot_name
-    l = lapply(l, sfc2df)
-    return(l)
-  }
-
-  warning("The class of this object is not supported: ",
-          paste(class(obj), collapse = ", "), ".")
-  invisible(NULL)
+            slot_name = methods::slotNames(obj)
+            l = vector("list", length = length(slot_name))
+            l = lapply(slot_name, slot, object = obj)
+            names(l) = slot_name
+            l = lapply(l, sfc2df)
+            return(l)
 }
-
 
 # from sfc to a combined/tidy data.frame
 sfc2df = function(x){
