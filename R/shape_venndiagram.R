@@ -1,6 +1,51 @@
 ########## Complex Shapes ###########
 
 
+##### Five dimension ellipses ######
+fancy_5d_ellipse = function(){
+  cx = 120
+  cy = -275
+  rx = 1000 * 2
+  ry = 1587 * 2
+  ellipses = lapply(1:5, function(i){
+    ellipse(cx, cy, rx, ry, 72*(i-1), n = 100)
+  })
+  return(ellipses)
+}
+
+fancy_5d_ellipse_label = function(){
+  x = 120
+  y = 1500
+  position = lapply(1:5, function(i){
+    data = rotate(x, y, cx = 1000, cy = 1587, 72*(i-1)) |> unlist()
+    matrix(data, ncol = 2, dimnames = list(NULL, c("x","y")))
+  })
+  return(position)
+}
+
+#' Rotate a point by the other point
+#'
+#' @param x,y point coordinates
+#' @param cx,cy center coordinates
+#' @param angle angle
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#'   rotate(1,1,0,0,90)
+rotate = function(x, y, cx, cy, angle){
+  # 定义旋转角度（以弧度为单位）
+  theta = angle * (pi / 180)
+
+  # 计算旋转后的点坐标
+  x_rotated <- cos(theta) * (x - cx) - sin(theta) * (y - cy) + cx
+  y_rotated <- sin(theta) * (x - cx) + cos(theta) * (y - cy) + cy
+
+  return(list(x = x_rotated, y = y_rotated))
+
+}
+
 ##### Four dimension ellipses ######
 
 #' fancy 4d ellipse from `VennDiagram`
